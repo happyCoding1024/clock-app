@@ -1,25 +1,29 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {inject,observer} from "mobx-react"
 
+
+
+@inject("store")
+
+@observer
 class App extends Component {
   render() {
+    let {store} = this.props
+    console.log(this)
+    
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+       home数据： {store.home.name}
+       <hr/>
+       home-computed后数据： {store.home.otherName}
+       <hr/>
+       <button onClick={store.home.add.bind(this)}>更改home数据</button>
+       <hr/>
+       car数据： {store.car.age}
+       <hr/>
+        car-computed后数据： {store.car.douleAge}
+       <hr/>
+       <button onClick={store.car.add.bind(this)}>更改car数据</button>
       </div>
     );
   }
