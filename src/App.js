@@ -1,31 +1,49 @@
 import React, { Component } from 'react';
-import {inject,observer} from "mobx-react"
-
-
+import {inject,observer} from "mobx-react";
+import moment from 'moment-timezone';
 
 @inject("store")
-
 @observer
 class App extends Component {
+
+  constructor (props) {
+    super(props);
+    this.handleTimeZoneChange = this.handleTimeZoneChange.bind(this);
+    moment.tz.setDefault("Asia/Chongqing");
+  }
+
   render() {
-    let {store} = this.props
-    console.log(this)
-    
+    const {store} = this.props;
+
     return (
-      <div className="App">
-       home数据： {store.home.name}
-       <hr/>
-       home-computed后数据： {store.home.otherName}
-       <hr/>
-       <button onClick={store.home.add.bind(this)}>更改home数据</button>
-       <hr/>
-       car数据： {store.car.age}
-       <hr/>
-        car-computed后数据： {store.car.douleAge}
-       <hr/>
-       <button onClick={store.car.add.bind(this)}>更改car数据</button>
+      <div className='App'>
+        <div>{store.clock.currentTime}</div>
+        <label htmlFor="timeZone-select">时区选择</label>
+        <select 
+          name="timeZone" 
+          id="timeZone-select" 
+          onChange={this.handleTimeZoneChange}
+        >
+          { moment.tz.names().map((item, index) => 
+            item === 'Asia/Chongqing' ? 
+              <option value={item} key={index} selected="selected">{item}</option> 
+            :
+              <option value={item} key={index}>{item}</option>
+          )}
+        </select>
       </div>
     );
+  }
+
+  componentDidMount () {
+    setInterval(() => {
+      this.props.store.clock.updateCurrentTime();
+    }, 1000);
+  }
+
+  handleTimeZoneChange (e) {
+    const selectedTimeZone = e.target.value;
+    this.props.store.clock.updateTimeZone(selectedTimeZone);
   }
 }
 

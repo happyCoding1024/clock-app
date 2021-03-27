@@ -1,9 +1,7 @@
-import home from  "./home"
-import car from "./car"
+import clock from './clock';
 
 const store = {
-    home,
-    car
+    clock
 }
 
 export default store
