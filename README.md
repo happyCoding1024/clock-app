@@ -1,5 +1,7 @@
 # clock-app
 
+<img src="https://gitee.com/codingOrange/image-hosting/raw/master/img/20210327155832.png" style="position: center">
+
 ## 介绍
 
 采用 `React + Mobx` 实现了一个时钟页面，并支持切换时区。
